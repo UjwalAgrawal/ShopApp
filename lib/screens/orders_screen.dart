@@ -27,7 +27,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print("rebuilded");
+    // print("rebuilded");
     // final orderData = Provider.of<Orders>(context);
     return Scaffold(
       drawer: AppDrawar(),

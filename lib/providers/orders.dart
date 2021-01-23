@@ -21,14 +21,17 @@ class OrderItem {
 
 class Orders with ChangeNotifier {
   List<OrderItem> _orders = [];
+  final String authToken;
+  final String userId;
+  Orders(this.authToken, this.userId, this._orders);
 
   List<OrderItem> get orders {
     return [..._orders];
   }
 
   Future<void> fetchAndSetOrders() async {
-    const url =
-        "https://flutter-update-176d1-default-rtdb.firebaseio.com/orders.json";
+    final url =
+        "https://flutter-update-176d1-default-rtdb.firebaseio.com/orders/$userId.json?auth=$authToken";
     final response = await http.get(url);
     // print(json.decode(response.body));
     final List<OrderItem> loadedOrders = [];
@@ -36,7 +39,8 @@ class Orders with ChangeNotifier {
 
     if (extractedData != null) {
       extractedData.forEach((orderID, orderData) {
-        loadedOrders.add(
+        loadedOrders.insert(
+          0,
           OrderItem(
             id: orderID,
             amount: orderData['amount'],
@@ -57,13 +61,13 @@ class Orders with ChangeNotifier {
         );
       });
     }
-    _orders = loadedOrders.reversed.toList();
+    // _orders = loadedOrders.reversed.toList();
     notifyListeners();
   }
 
   Future<void> addOrder(List<CartItem> cartProducts, double totalAmount) async {
-    const url =
-        "https://flutter-update-176d1-default-rtdb.firebaseio.com/orders.json";
+    final url =
+        "https://flutter-update-176d1-default-rtdb.firebaseio.com/orders/$userId.json?auth=$authToken";
     final timeStamp = DateTime.now();
     try {
       final response = await http.post(url,

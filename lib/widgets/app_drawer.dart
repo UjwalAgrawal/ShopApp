@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/screens/user_products_screen.dart';
+import 'package:provider/provider.dart';
 
+import '../screens/user_products_screen.dart';
 import '../screens/orders_screen.dart';
+import '../providers/auth.dart';
 
 class AppDrawar extends StatelessWidget {
   @override
@@ -37,6 +39,16 @@ class AppDrawar extends StatelessWidget {
             },
             leading: Icon(Icons.edit),
             title: const Text("Manage Products"),
+          ),
+          Divider(),
+          ListTile(
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.pushReplacementNamed(context, '/');
+              Provider.of<Auth>(context, listen: false).logout();
+            },
+            leading: Icon(Icons.logout),
+            title: const Text("Logout?"),
           )
         ],
       ),
